@@ -3,3 +3,5 @@
 ################################################################################
 
 /green_people/bin/Debug
+/green_people/obj/Debug
+/.vs/green_people/v15/Server/sqlite3
