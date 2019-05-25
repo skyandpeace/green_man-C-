@@ -20,6 +20,67 @@ namespace green_people
         int passtime;
         int x = 0, y = 0;
 
+        
+
+        private void frmsmallgreenman_Load(object sender, EventArgs e)
+        {
+            groupBox1.Size = new Size(480, 510);
+            for (int i = 0; i < 256; i++)
+            {
+                RadioButton btnclose = new RadioButton();
+                btnclose.Size = new Size(30, 30);
+                groupBox1.Controls.Add(btnclose);
+                x += 30;
+                if (i % 16 == 0)
+                {
+                    y += 30;
+                    x = 0;
+                }
+                btnclose.Location = new Point(x, y);
+            }
+            for (int i = 0; i < 256; i++)
+                groupBox1.Controls[i].BackColor = Color.White;
+            greenman(1);
+            btnstop.Enabled = false;
+        }
+
+
+        private void btnstart_Click(object sender, EventArgs e)
+        {
+            passtime = 0;
+            tmrsmallgreenman.Enabled = true;
+            tmrsmallgreenman.Interval = 50;
+            btnstart.Enabled = false;
+            btnstop.Enabled = true;
+        }
+
+        private void tmrsmallgreenman_Tick(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 256; i++)
+                groupBox1.Controls[i].BackColor = Color.White;
+                p++;
+            if (p >= 8)
+                p = 1;
+            passtime += tmrsmallgreenman.Interval;
+            if (passtime == 60000)
+            {
+                greenman(1);
+                btnstop.PerformClick();
+                return;
+            }
+            else if (passtime >= 50000)
+                tmrsmallgreenman.Interval = 10;
+            else if (passtime >= 30000)
+                tmrsmallgreenman.Interval = 1;
+            greenman(p);
+         }
+
+        private void btnstop_Click(object sender, EventArgs e)
+        {
+            tmrsmallgreenman.Enabled = false;
+            btnstop.Enabled = false;
+            btnstart.Enabled = true;
+        }
         void greenman(int pick)
         {
             switch (pick)
@@ -419,67 +480,6 @@ namespace green_people
                     break;
             }
         }
-
-        private void frmsmallgreenman_Load(object sender, EventArgs e)
-        {
-            groupBox1.Size = new Size(480, 510);
-            for (int i = 0; i < 256; i++)
-            {
-                Button btnclose = new Button();
-                btnclose.Size = new Size(30, 30);
-                groupBox1.Controls.Add(btnclose);
-                x += 30;
-                if (i % 16 == 0)
-                {
-                    y += 30;
-                    x = 0;
-                }
-                btnclose.Location = new Point(x, y);
-            }
-            for (int i = 0; i < 256; i++)
-                groupBox1.Controls[i].BackColor = Color.White;
-            greenman(1);
-            btnstop.Enabled = false;
-        }
-
-
-        private void btnstart_Click(object sender, EventArgs e)
-        {
-            passtime = 0;
-            tmrsmallgreenman.Enabled = true;
-            tmrsmallgreenman.Interval = 50;
-            btnstart.Enabled = false;
-            btnstop.Enabled = true;
-        }
-
-        private void tmrsmallgreenman_Tick(object sender, EventArgs e)
-        {
-            for (int i = 0; i < 256; i++)
-                groupBox1.Controls[i].BackColor = Color.White;
-                p++;
-            if (p >= 8)
-                p = 1;
-            passtime += tmrsmallgreenman.Interval;
-            if (passtime == 60000)
-            {
-                greenman(1);
-                btnstop.PerformClick();
-                return;
-            }
-            else if (passtime >= 50000)
-                tmrsmallgreenman.Interval = 10;
-            else if (passtime >= 30000)
-                tmrsmallgreenman.Interval = 1;
-            greenman(p);
-        }
-
-        private void btnstop_Click(object sender, EventArgs e)
-        {
-            tmrsmallgreenman.Enabled = false;
-            btnstop.Enabled = false;
-            btnstart.Enabled = true;
-        }
-
 
     }
 }
